@@ -1,11 +1,14 @@
 #SHELL = /bin/zsh
 
 CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -g3 -fsanitize=address
+CXX = clang++
 
 SRCS =	main.cpp	\
 		STLmain.cpp
 
 OBJS = $(SRCS:.cpp=.o)
+
+.SILENT:
 
 all: $(OBJS)
 	$(CXX) $(CXXFLAGS) main.o -o mytests
