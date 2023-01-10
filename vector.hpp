@@ -2,7 +2,9 @@
 #define VECTOR_HPP
 #include <iostream>
 #include <stdexcept>
+#include <limits>
 #include "Iterator.hpp"
+#include "reverse_iterator.hpp"
 
 namespace ft {
 	template<class vector> class iterator : public Iterator<std::random_access_iterator_tag, typename vector::value_type> {
@@ -84,8 +86,8 @@ namespace ft {
 		typedef const typename Allocator::pointer			const_pointer;
 		typedef ft::iterator<vector<T> >					iterator;
 		typedef ft::iterator<const vector<T> >				const_iterator;
-		//typedef reverse_iterator //TODO reverse iterators
-		//typedef const_reverse_iterator //TODO const reverse iterators
+		typedef ft::reverse_iterator<vector<T> >			reverse_iterator; //TODO reverse iterators
+		typedef ft::reverse_iterator<const vector<T> >		const_reverse_iterator; //TODO reverse iterators
 	private:
 		allocator_type			_alloc;
 		value_type				*_array;
@@ -133,7 +135,14 @@ namespace ft {
 		iterator	end(void) {
 			return	iterator(this->_array + this->_size);
 		}
-		//TODO reverse iterators
+		//TODO
+		reverse_iterator	rbegin(void) {
+			return	reverse_iterator(this->end() - 1);
+		}
+		//TODO
+		reverse_iterator	rend(void) {
+			return	reverse_iterator(this->begin() - 1);
+		}
 		/* Capacity */
 		size_type	size(void) const {
 			return this->_size;
