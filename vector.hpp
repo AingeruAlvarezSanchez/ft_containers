@@ -7,6 +7,94 @@
 #include "is_integral.hpp"
 
 namespace ft {
+	template <class vector>
+	class iterator {
+	public:
+		typedef ptrdiff_t									difference_type;
+		typedef typename vector::value_type					value_type;
+		typedef value_type*									pointer;
+		typedef value_type&									reference;
+		typedef typename std::random_access_iterator_tag	iterator_category;
+	private:
+		pointer	_ptr;
+	public:
+		/* Constructors */
+		iterator() : _ptr(nullptr) {}
+
+		explicit iterator(pointer ptr) : _ptr(ptr) {}
+
+		iterator(const iterator& x) : _ptr(x._ptr) {}
+
+		/* Destructor */
+		~iterator() {}
+
+		/* Overload of operator= */
+		iterator&	operator=(const iterator& x) {
+			if (*this == &x)
+				return *this;
+			this->_ptr = x._ptr;
+			return *this;
+		}
+
+		/* Operator overloads */
+		bool	operator==(const iterator& other) const {
+			return this->_ptr == other._ptr;
+		}
+
+		bool	operator!=(const iterator& other) const {
+			return !(*this == other);
+		}
+
+		reference	operator*() {
+			return *this->_ptr;
+		}
+
+		reference	operator->() {
+			return this->_ptr;
+		}
+		//TODO operator* =
+
+		iterator&	operator++() {
+			this->_ptr++;
+			return *this;
+		}
+
+		iterator	operator++(int) {
+			iterator	tmp = *this;
+			++(*this);
+			return (tmp);
+		}
+
+		//TODO operator*++
+
+		iterator&	operator--() {
+			this->_ptr--;
+			return *this;
+		}
+
+		iterator	operator--(int) {
+			iterator	tmp = *this;
+			--(*this);
+			return (tmp);
+		}
+
+		//TODO operator*--
+		//TODO operator+
+		//TODO operator+
+		//TODO operator-
+		//TODO operator-
+		//TODO operator<
+		//TODO operator>
+		//TODO operator<=
+		//TODO operator>=
+		//TODO operator+=
+		//TODO operator-=
+
+		reference	operator[](int index) {
+			return *(this->_ptr + index);
+		}
+	};
+
 	template <typename T, class Alloc = std::allocator<T> >
 	class vector {
 	public:
@@ -16,8 +104,10 @@ namespace ft {
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer			pointer;
 		typedef typename allocator_type::const_pointer		const_pointer;
-		//TODO iterators
-		//typedef typename ft::iterator_traits<iterator>		difference_type; //TODO need iterators first
+		typedef typename ft::iterator<vector>				iterator;
+		typedef typename ft::iterator<const vector>			const_iterator;
+		//TODO reverse_iterators
+		typedef typename ft::iterator_traits<iterator>		difference_type;
 		typedef size_t 										size_type;
 	private:
 		allocator_type	_alloc;
@@ -66,8 +156,14 @@ namespace ft {
 		}
 
 		/* Iterators */
-		//TODO begin
-		//TODO end
+		iterator	begin() {
+			return iterator(this->_array);
+		}
+
+		iterator	end() {
+			return iterator(this->_array + this->_size);
+		}
+
 		//TODO rbegin
 		//TODO rend
 		//TODO have in mind that constant versions of the iterator functions were implemented on C++11
@@ -150,11 +246,11 @@ namespace ft {
 			return *(this->_array + this->_size - 1);
 		}
 
-		const_reference	back() const /*noexcept*/ { //TODO noexcept??
+		const_reference	back() const {
 			return *(this->_array + this->_size - 1);
 		}
 
-		value_type*	data() /*noexcept*/ { //TODO noexcept??
+		value_type*	data() {
 			return this->_array;
 		}
 
@@ -229,8 +325,6 @@ namespace ft {
 			this->_size = 0;
 		}
 
-		//TODO emplace // What the hell is this function declaration?? va_args??
-
 		/* Allocator */
 		allocator_type	get_allocator() const {
 			return this->_alloc;
@@ -245,7 +339,11 @@ namespace ft {
 	//TODO operator>
 	//TODO operator>=
 	//TODO operator>=
-	//TODO std::swap(std::vector) //ask, i need to change private parameters from each vector, should i make it friend??
+
+	template <class T, class Alloc>
+	void	swap(vector<T, Alloc>& x, vector<T, Alloc>& y) {
+		x.swap(y);
+	}
 }
 
 #endif //VECTOR_HPP

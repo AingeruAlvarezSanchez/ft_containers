@@ -13,16 +13,20 @@ int	main() {
 	vec.reserve(17);
 	vec2.push_back(42);
 	vec.push_back(42);
+	std::vector<int>::iterator	it = vec.end();
+	ft::vector<int>::iterator	it2 = vec2.end();
 
-	for (unsigned long i = 0; i < vec2.size(); i++)
-		std::cout << "MY Content: " << vec2.at(i) << "\n";
+	std::cout << "Iterator: " << *it2 << std::endl;
+	for (; it2 != vec2.begin(); it2--)
+		std::cout << "MY Content: " << *it2 << "\n";
 	std::cout << "MY capacity: " << vec2.capacity() << "\n";
 	std::cout << "MY size: " << vec2.size() << "\n";
 
 	std::cout << "-------- Separator --------\n";
 
-	for (unsigned long i = 0; i < vec.size(); i++)
-		std::cout << "Content: " << vec.at(i) << "\n";
+	std::cout << "Iterator: " << *it << std::endl;
+	for (; it != vec.begin(); it--)
+		std::cout << "Content: " << *it << "\n";
 	std::cout << "Capacity: " << vec.capacity() << "\n";
 	std::cout << "Size: " << vec.size() << "\n";
 
