@@ -3,21 +3,18 @@
 #include <iostream>
 
 int	main() {
-	std::vector<int>	vec(5, 1);
-	ft::vector<int>	myVec(5,1);
+	std::vector<int>	vec(1, 42);
+	ft::vector<int>	myVec(1,42);
+
 	ft::vector<int>	vec2;
 	vec2 = myVec;
-	vec2.push_back(54);
-	vec.push_back(54);
-	vec2.reserve(17);
-	vec.reserve(17);
-	vec2.push_back(42);
-	vec.push_back(42);
-	std::vector<int>::iterator	it = vec.end();
-	ft::vector<int>::iterator	it2 = vec2.end();
+	vec2.resize(5, 'A');
+	vec.resize(5, 'A');
+	std::vector<int>::iterator	it = vec.begin();
+	ft::vector<int>::iterator	it2 = vec2.begin();
 
 	std::cout << "Iterator: " << *it2 << std::endl;
-	for (; it2 != vec2.begin(); it2--)
+	for (; it2 != vec2.end(); it2++)
 		std::cout << "MY Content: " << *it2 << "\n";
 	std::cout << "MY capacity: " << vec2.capacity() << "\n";
 	std::cout << "MY size: " << vec2.size() << "\n";
@@ -25,7 +22,7 @@ int	main() {
 	std::cout << "-------- Separator --------\n";
 
 	std::cout << "Iterator: " << *it << std::endl;
-	for (; it != vec.begin(); it--)
+	for (; it != vec.end(); it++)
 		std::cout << "Content: " << *it << "\n";
 	std::cout << "Capacity: " << vec.capacity() << "\n";
 	std::cout << "Size: " << vec.size() << "\n";

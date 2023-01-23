@@ -19,7 +19,7 @@ namespace ft {
 		pointer	_ptr;
 	public:
 		/* Constructors */
-		iterator() : _ptr(nullptr) {}
+		iterator() : _ptr(0) {}
 
 		explicit iterator(pointer ptr) : _ptr(ptr) {}
 
@@ -187,9 +187,18 @@ namespace ft {
 				this->_size = n;
 			}
 			else {
-				for (unsigned long i = this->_size; i < n; i++)
-					this->push_back(val);
+				vector	tmp = *this;
+				this->clear();
+				this->_alloc.deallocate(this->_array, this->_capacity);
+				this->_array = this->_alloc.allocate(n);
+				for (unsigned long i = 0; i < tmp._size; i++)
+					this->_alloc.construct(this->_array + i, *(tmp._array + i));
+				for (unsigned long i = tmp._size; i < n; i++)
+					this->_alloc.construct(this->_array + i, val);
+				this->_capacity = n;
+				this->_size = n;
 			}
+			//TODO check more cases, including limit cases, pending
 		}
 
 		size_type	capacity() const {
@@ -205,12 +214,13 @@ namespace ft {
 				throw	std::length_error("vector"); //TODO check the message of the original
 			vector	tmp = *this;
 			this->clear();
+			this->_size = tmp._size;
 			this->_alloc.deallocate(this->_array, this->_capacity);
 			this->_capacity = n;
 			this->_array = this->_alloc.allocate(this->_capacity);
 			for (unsigned long i = 0; i < tmp._size; i++)
-				this->push_back(*(tmp._array + i));
-			//TODO before correction check if push_back is better enough than construct
+				this->_alloc.construct(this->_array + i, *(tmp._array + i));
+			//TODO check more cases, including limit cases, pending
 		}
 
 		/* Element access */
@@ -254,8 +264,7 @@ namespace ft {
 			return this->_array;
 		}
 
-		const value_type*	data() const /*noexcept*/ {
-			//TODO if size is 0 it may or not may return nullptr, check with original
+		const value_type*	data() const {
 			return this->_array;
 		}
 
@@ -267,23 +276,14 @@ namespace ft {
 			if (this->_size + 1 > this->max_size())
 				throw std::length_error("vector");
 			if (this->_size + 1 > this->_capacity) {
-				vector	tmp = *this;
-				this->_capacity *= 2;
-				if (this->_capacity != 0) {
-					this->clear();
-					this->_alloc.deallocate(this->_array, tmp._capacity);
-					this->_array = this->_alloc.allocate(this->_capacity);
-					this->_size = tmp._size;
-					for (unsigned long i = 0; i < tmp._size; i++)
-						this->_alloc.construct(this->_array + i, *(tmp._array + i));
-				}
+				if (!this->_capacity)
+					this->reserve(1);
 				else {
-					this->_array = this->_alloc.allocate(1);
-					this->_capacity = 1;
+					this->reserve(this->_capacity * 2);
 				}
 			}
 			this->_alloc.construct(this->_array + this->_size, val);
-			++this->_size;
+			this->_size++;
 			//TODO check if it works in every case (?)
 		}
 

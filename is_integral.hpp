@@ -1,5 +1,6 @@
 #ifndef IS_INTEGRAL_HPP
 #define IS_INTEGRAL_HPP
+#include <type_traits> //TODO reimplement integral_constant due to conflict with std=c++98 flag
 
 namespace ft {
 	template <class T>
