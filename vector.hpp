@@ -79,16 +79,34 @@ namespace ft {
 		}
 
 		//TODO operator*--
-		//TODO operator+
-		//TODO operator+
-		//TODO operator-
-		//TODO operator-
+
+		iterator	operator+(difference_type n) const {
+			iterator	tmp(this->_ptr + n);
+			return	tmp;
+		}
+
+		//TODO operator+ //adding iterator instead of number
+
+		iterator	operator-(difference_type n) const {
+			iterator	tmp(this->_ptr - n);
+			return	tmp;
+		}
+
+		//TODO operator- //subtract iterator instead of number
 		//TODO operator<
 		//TODO operator>
 		//TODO operator<=
 		//TODO operator>=
-		//TODO operator+=
-		//TODO operator-=
+
+		iterator&	operator+=(difference_type n) {
+			this->_ptr += n;
+			return *this;
+		}
+
+		iterator&	operator-=(difference_type n) {
+			this->_ptr -= n;
+			return *this;
+		}
 
 		reference	operator[](int index) {
 			return *(this->_ptr + index);
