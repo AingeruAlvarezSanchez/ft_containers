@@ -3,18 +3,33 @@
 #include <iostream>
 
 int	main() {
-	std::vector<int>	vec(1, 42);
-	ft::vector<int>	myVec(1,42);
+	std::vector<int>	vec(1, 1);
+	ft::vector<int>	myVec(1,1);
 	ft::vector<int>	vec2;
 
 	vec2 = myVec;
+
+	vec.push_back(32);
+	vec.push_back(22);
+	vec.push_back(12);
+	std::cout << "CHECKER FOR BEGIN: " << *vec.begin() << "\n";
+	std::cout << "CHECKER FOR END: " << *(vec.end()) << "\n"; //TODO after the 3rd push_back end is same as begin??
+
+	vec2.push_back(32);
+	vec2.push_back(22);
+	vec2.push_back(12);
+	std::cout << "MY CHECKER FOR BEGIN: " << *vec2.begin() << "\n";
+	std::cout << "MY CHECKER FOR END: " << *(vec2.end()) << "\n";
+
 	std::vector<int>::iterator	it = vec.begin();
 	ft::vector<int>::iterator	it2 = vec2.begin();
 
-	std::cout << "pos + 1: " << *(it += 1) << "\n";
-	std::cout << "change pos + 1: " << *it << "\n";
-	std::cout << "MY pos + 1: " << *(it2 += 1) << "\n";
-	std::cout << "MY change pos + 1: " << *it2 << "\n";
+	std::vector<int>::reverse_iterator 	rit = vec.rbegin();
+	ft::vector<int>::reverse_iterator 	rit2 = vec2.rbegin();
+
+	std::cout << "CHECKER FOR RBEGIN: " << *rit << "\n";
+	std::cout << "MY CHECKER FOR RBEGIN: " << *rit2 << "\n";
+
 	std::cout << "Iterator: " << *it2 << std::endl;
 	for (; it2 != vec2.end(); it2++)
 		std::cout << "MY Content: " << *it2 << "\n";
