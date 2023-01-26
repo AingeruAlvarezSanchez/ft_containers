@@ -3,8 +3,8 @@
 #include <iostream>
 
 int	main() {
-	std::vector<int>	vec(1, 1);
-	ft::vector<int>	myVec(1,1);
+	std::vector<int>	vec(1, 42);
+	ft::vector<int>	myVec(1,42);
 	ft::vector<int>	vec2;
 
 	vec2 = myVec;
@@ -27,9 +27,14 @@ int	main() {
 	std::vector<int>::reverse_iterator 	rit = vec.rbegin();
 	ft::vector<int>::reverse_iterator 	rit2 = vec2.rbegin();
 
+	std::cout << "-------- Separator --------\n";
 	std::cout << "CHECKER FOR RBEGIN: " << *rit << "\n";
 	std::cout << "MY CHECKER FOR RBEGIN: " << *rit2 << "\n";
 
+	std::cout << "CHECKER FOR REND: " << *(vec.rend() - 1) << "\n";
+	//std::cout << "MY CHECKER FOR REND: " << *(vec2.rend() + 1) << "\n";
+
+	std::cout << "-------- Separator --------\n";
 	std::cout << "Iterator: " << *it2 << std::endl;
 	for (; it2 != vec2.end(); it2++)
 		std::cout << "MY Content: " << *it2 << "\n";

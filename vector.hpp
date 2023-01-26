@@ -248,7 +248,7 @@ namespace ft {
 
 		void	reserve(size_type n) {
 			if (n > this->max_size())
-				throw	std::length_error("vector"); //TODO check the message of the original
+				throw	std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 			vector	tmp = *this;
 			this->clear();
 			this->_size = tmp._size;

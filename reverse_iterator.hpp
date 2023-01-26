@@ -20,7 +20,9 @@ namespace ft {
 		template<class Iter>
 		reverse_iterator(const reverse_iterator<Iter>& rev_it) : _base(rev_it._base) {}
 
-		//TODO base
+		iterator_type	base() const {
+			return _base;
+		}
 
 		reference	operator*() const {
 			return *(this->_base - 1);
@@ -32,8 +34,15 @@ namespace ft {
 		//TODO operator-
 		//TODO operator--
 		//TODO operator-=
-		//TODO operator->
-		//TODO operator[]
+
+		pointer	operator->() const {
+			return &this->operator*();
+			//TODO check
+		}
+
+		reference	operator[](difference_type n) const {
+			return this->base()[- n - 1];
+		}
 	};
 	//TODO operator==
 	//TODO operator!=
