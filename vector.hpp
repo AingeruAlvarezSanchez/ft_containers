@@ -67,8 +67,6 @@ namespace ft {
 			return (tmp);
 		}
 
-		//TODO operator*++
-
 		iterator&	operator--() {
 			this->_ptr--;
 			return *this;
@@ -80,21 +78,23 @@ namespace ft {
 			return (tmp);
 		}
 
-		//TODO operator*--
-
 		iterator	operator+(difference_type n) const {
 			iterator	tmp(this->_ptr + n);
 			return	tmp;
 		}
 
-		//TODO operator- //adding iterator instead of number //It returns the numeric position difference
+		difference_type	operator+(const iterator &it) {
+			return this->_ptr + it._ptr;
+		}
 
 		iterator	operator-(difference_type n) const {
 			iterator	tmp(this->_ptr - n);
 			return	tmp;
 		}
 
-		//TODO operator- //subtract iterator instead of number //It returns the numeric position difference
+		difference_type	operator-(const iterator &it) {
+			return this->_ptr - it._ptr;
+		}
 
 		bool	operator<(const iterator& r) {
 			return this->_ptr < r._ptr;
@@ -307,6 +307,16 @@ namespace ft {
 
 		/* Modifiers */
 
+		/*template<class InputIterator>
+		void	assign(InputIterator first, InputIterator last) {
+			//TODO
+		}*/
+
+		void	assign(size_type n, const value_type& val) {
+			this->resize(n);
+			for (unsigned long i = 0; i < this->_size; i++)
+				this->_alloc.construct(this->_array + i, val);
+		}
 		//TODO assign
 
 		void	push_back(const value_type& val) {
@@ -331,6 +341,14 @@ namespace ft {
 		}
 
 		//TODO insert
+
+		/*iterator	erase(iterator position) {
+		 * //TODO
+		}*/
+
+		/*iterator	erase(iterator first, iterator last) {
+		 * //TODO
+		}*/
 		//TODO erase
 
 		void	swap(vector& x) {
