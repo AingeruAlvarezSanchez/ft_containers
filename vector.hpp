@@ -6,6 +6,8 @@
 #include "enable_if.hpp"
 #include "is_integral.hpp"
 #include "reverse_iterator.hpp"
+#include "equal.hpp"
+#include "lexicographical_compare.hpp"
 
 namespace ft {
 	template <class vector>
@@ -83,7 +85,7 @@ namespace ft {
 			return	tmp;
 		}
 
-		difference_type	operator+(const iterator &it) {
+		difference_type	operator+(iterator &it) {  //TODO it doesnt work?? //Maybe outside function??
 			return this->_ptr + it._ptr;
 		}
 
@@ -92,7 +94,7 @@ namespace ft {
 			return	tmp;
 		}
 
-		difference_type	operator-(const iterator &it) {
+		difference_type	operator-(iterator &it) { //TODO it doesnt work?? //Maye outside function??
 			return this->_ptr - it._ptr;
 		}
 
@@ -342,9 +344,19 @@ namespace ft {
 
 		//TODO insert
 
-		/*iterator	erase(iterator position) {
-		 * //TODO
-		}*/
+		iterator	erase(iterator position) {
+			vector	tmp = *this;
+
+			this->clear();
+			for (iterator it = this->begin(); it != tmp.end(); it++) {
+				if (it < position)
+					this->_alloc.construct(this->_array + it, tmp._array + it);
+				else
+					this->_alloc.construct(this->_array + it - 1, tmp._array + it);
+			}
+			this->_size = tmp._size - 1;
+			return this->begin() + position; //TODO it doesnt compile due to iterator overload
+		}
 
 		/*iterator	erase(iterator first, iterator last) {
 		 * //TODO
@@ -352,7 +364,6 @@ namespace ft {
 		//TODO erase
 
 		void	swap(vector& x) {
-			//TODO can we swap the array without temporary? with number variables its possible
 			vector	tmp(x);
 			x.clear();
 			x._alloc.deallocate(x._array, x._capacity);
@@ -387,13 +398,35 @@ namespace ft {
 	};
 
 	/* Non member */
-	//TODO operator== //ft::equal required
-	//TODO operator!=
-	//TODO operator<
-	//TODO operator<=
-	//TODO operator>
-	//TODO operator>=
-	//TODO operator>=
+	template <class T, class Alloc>
+	bool	operator==(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template <class T, class Alloc>
+	bool	operator!=(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+		return !(lhs == rhs);
+	}
+
+	template <class T, class Alloc>
+	bool	operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class T, class Alloc>
+	bool	operator<=(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+		return !(rhs < lhs); //TODO CHECK
+	}
+
+	template <class T, class Alloc>
+	bool	operator>(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+		return rhs < lhs;
+	}
+
+	template <class T, class Alloc>
+	bool	operator>=(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+		return !(lhs < rhs); //TODO CHECK
+	}
 
 	template <class T, class Alloc>
 	void	swap(vector<T, Alloc>& x, vector<T, Alloc>& y) {

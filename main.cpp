@@ -30,6 +30,8 @@ int	main() {
 	std::vector<int>::iterator	it = vec.begin();
 	ft::vector<int>::iterator	it2 = vec2.begin();
 
+	std::cout << "position after erase at: " << *vec2.erase(vec2.begin() + 1) << "\n";
+	std::cout << "position after erase at: " << *vec.erase(vec.begin() + 1) << "\n";
 	std::cout << "-------- Separator --------\n";
 	std::cout << "Iterator: " << *it2 << std::endl;
 	for (; it2 != vec2.end(); it2++)
