@@ -85,16 +85,12 @@ namespace ft {
 			return	tmp;
 		}
 
-		difference_type	operator+(iterator &it) {  //TODO it doesnt work?? //Maybe outside function??
-			return this->_ptr + it._ptr;
-		}
-
 		iterator	operator-(difference_type n) const {
 			iterator	tmp(this->_ptr - n);
 			return	tmp;
 		}
 
-		difference_type	operator-(iterator &it) { //TODO it doesnt work?? //Maye outside function??
+		difference_type	operator-(iterator &it) {
 			return this->_ptr - it._ptr;
 		}
 
@@ -344,19 +340,9 @@ namespace ft {
 
 		//TODO insert
 
-		iterator	erase(iterator position) {
-			vector	tmp = *this;
-
-			this->clear();
-			for (iterator it = this->begin(); it != tmp.end(); it++) {
-				if (it < position)
-					this->_alloc.construct(this->_array + it, tmp._array + it);
-				else
-					this->_alloc.construct(this->_array + it - 1, tmp._array + it);
-			}
-			this->_size = tmp._size - 1;
-			return this->begin() + position; //TODO it doesnt compile due to iterator overload
-		}
+		/*iterator	erase(iterator position) {
+			//TODO
+		}*/
 
 		/*iterator	erase(iterator first, iterator last) {
 		 * //TODO
