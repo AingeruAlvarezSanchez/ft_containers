@@ -5,6 +5,7 @@
 #include "iterator_traits.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
+//#include "integral_constant.hpp" //TODO
 #include "reverse_iterator.hpp"
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
@@ -90,7 +91,7 @@ namespace ft {
 			return	tmp;
 		}
 
-		difference_type	operator-(iterator &it) {
+		difference_type	operator-(const iterator &it) {
 			return this->_ptr - it._ptr;
 		}
 
@@ -161,7 +162,7 @@ namespace ft {
 		template<class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		: _alloc(alloc), _size(last - first), _capacity(_size), _maxSize(alloc.max_size()) {
-			this->_array = this->_alloc.allocate(this->_size);
+			this->_array = this->_alloc.allocate(this->_capacity);
 			for (size_type i = 0; i < this->_size; i++)
 				this->_alloc.construct(this->_array + i, *(first++));
 		}
@@ -340,9 +341,26 @@ namespace ft {
 
 		//TODO insert
 
-		/*iterator	erase(iterator position) {
-			//TODO
-		}*/
+		iterator	erase(iterator position) {
+			vector	tmp = *this;
+
+			if (position == this->end() - 1) {
+				this->resize(this->_size - 1);
+				return this->end();
+				//TODO temporary, lets see if we can do it all in the for loop with tmp.resize()
+			}
+			//TODO temporary, we must not construct over the already constructed elements (deallocate)
+			for (iterator it = this->begin(); it != this->end(); it++) {
+				if ((it - this->begin()) < (position - this->begin())) {
+					tmp._alloc.construct(tmp._array + (it - this->begin()), *it);
+				}
+				else if ((it - this->begin()) != static_cast<long int>(this->_size))
+					tmp._alloc.construct(tmp._array + (it - this->begin()), *(it + 1));
+			}
+			tmp._size -= 1;
+			*this = tmp;
+			return position;
+		}
 
 		/*iterator	erase(iterator first, iterator last) {
 		 * //TODO

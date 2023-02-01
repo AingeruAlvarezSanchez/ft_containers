@@ -9,29 +9,17 @@ int	main() {
 
 	vec2 = myVec;
 
-	std::cout << "begin pre: " << *vec.begin() << "\n";
-	vec.assign(1, 55);
-	std::cout << "begin post: " << *vec.begin() << "\n";
 	vec.push_back(32);
 	vec.push_back(22);
 	vec.push_back(12);
-	std::cout << "CHECKER FOR BEGIN: " << *vec.begin() << "\n";
-	std::cout << "CHECKER FOR END: " << *vec.end() << "\n"; //TODO after the 3rd push_back end is same as begin??
 
-	std::cout << "MY begin pre: " << *vec2.begin() << "\n";
-	vec2.assign(1, 55);
-	std::cout << "MY begin post: " << *vec2.begin() << "\n";
 	vec2.push_back(32);
 	vec2.push_back(22);
 	vec2.push_back(12);
-	std::cout << "MY CHECKER FOR BEGIN: " << *vec2.begin() << "\n";
-	std::cout << "MY CHECKER FOR END: " << *(vec2.end()) << "\n";
 
 	std::vector<int>::iterator	it = vec.begin();
 	ft::vector<int>::iterator	it2 = vec2.begin();
 
-	//std::cout << "position after erase at: " << *vec2.erase(vec2.begin() + 1) << "\n";
-	std::cout << "position after erase at: " << *vec.erase(vec.begin() + 1) << "\n";
 	std::cout << "-------- Separator --------\n";
 	std::cout << "Iterator: " << *it2 << std::endl;
 	for (; it2 != vec2.end(); it2++)
@@ -46,9 +34,5 @@ int	main() {
 		std::cout << "Content: " << *it << "\n";
 	std::cout << "Capacity: " << vec.capacity() << "\n";
 	std::cout << "Size: " << vec.size() << "\n";
-
-	std::cout << "-------- Separator --------\n";
-
-	std::cout << "Main function\n";
 	return 0;
 }
