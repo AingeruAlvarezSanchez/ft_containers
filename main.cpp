@@ -3,22 +3,22 @@
 #include <iostream>
 
 int	main() {
-	std::vector<int>	vec(1, 42);
-	ft::vector<int>	myVec(1,42);
-	ft::vector<int>	vec2;
+	std::vector<std::string>	vec(1, "str");
+	ft::vector<std::string>	myVec(1,"str");
+	ft::vector<std::string>	vec2;
 
 	vec2 = myVec;
 
-	vec.push_back(32);
-	vec.push_back(22);
-	vec.push_back(12);
+	vec.push_back("str2");
+	vec.push_back("str3");
+	vec.push_back("str4");
 
-	vec2.push_back(32);
-	vec2.push_back(22);
-	vec2.push_back(12);
+	vec2.push_back("str2");
+	vec2.push_back("str3");
+	vec2.push_back("str4");
 
-	std::vector<int>::iterator	it = vec.begin();
-	ft::vector<int>::iterator	it2 = vec2.begin();
+	std::vector<std::string>::iterator	it = vec.begin();
+	ft::vector<std::string>::iterator	it2 = vec2.begin();
 
 	std::cout << "-------- Separator --------\n";
 	std::cout << "Iterator: " << *it2 << std::endl;
