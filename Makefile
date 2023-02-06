@@ -2,7 +2,7 @@
 
 NAME = ft_containers
 
-CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -Wshadow -Wno-shadow -fsanitize=address -g3
+CXXFLAGS = -Wall -Werror -Wextra -std=c++98 -Wshadow -Wno-shadow -g3 -fsanitize=address
 
 SRCS = main.cpp
 

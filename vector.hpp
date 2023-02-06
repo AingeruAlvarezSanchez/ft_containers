@@ -5,7 +5,7 @@
 #include "iterator_traits.hpp"
 #include "enable_if.hpp"
 #include "is_integral.hpp"
-//#include "integral_constant.hpp" //TODO
+#include "integral_constant.hpp"
 #include "reverse_iterator.hpp"
 #include "equal.hpp"
 #include "lexicographical_compare.hpp"
@@ -155,23 +155,26 @@ namespace ft {
 		explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		: _alloc(alloc), _size(n), _capacity(n), _maxSize(alloc.max_size()) {
 			this->_array = this->_alloc.allocate(n);
-			for (size_type i = 0; i < n ; i++)
+			for (size_type i = 0; i < n ; i++) {
 				this->_alloc.construct(this->_array + i, val);
+			}
 		}
 
 		template<class InputIterator>
 		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 		: _alloc(alloc), _size(last - first), _capacity(_size), _maxSize(alloc.max_size()) {
 			this->_array = this->_alloc.allocate(this->_capacity);
-			for (size_type i = 0; i < this->_size; i++)
+			for (size_type i = 0; i < this->_size; i++) {
 				this->_alloc.construct(this->_array + i, *(first++));
+			}
 		}
 
 		vector(const vector& x)
 		: _alloc(x._alloc), _size(x._size), _capacity(x._capacity), _maxSize(x._maxSize) {
 			this->_array = this->_alloc.allocate(this->_capacity);
-			for (unsigned long i = 0; i < this->_size; i++)
+			for (unsigned long i = 0; i < this->_size; i++) {
 				this->_alloc.construct(this->_array + i, *(x._array + i));
+			}
 		}
 
 		/* Destructor */
@@ -218,21 +221,15 @@ namespace ft {
 			if (this->_size + n > this->max_size())
 				throw	std::length_error("vector");
 			if (n <= this->_size) {
-				for (unsigned long i = n + 1; i < this->_size; i++)
+				for (unsigned long i = n + 1; i < this->_size; i++) {
 					this->_alloc.destroy(this->_array + i);
+				}
 				this->_size = n;
 			}
 			else {
-				vector	tmp = *this;
-				this->clear();
-				this->_alloc.deallocate(this->_array, this->_capacity);
-				this->_array = this->_alloc.allocate(n);
-				for (unsigned long i = 0; i < tmp._size; i++)
-					this->_alloc.construct(this->_array + i, *(tmp._array + i));
-				for (unsigned long i = tmp._size; i < n; i++)
-					this->_alloc.construct(this->_array + i, val);
-				this->_capacity = n;
-				this->_size = n;
+				while (this->_size < n) {
+					push_back(val);
+				}
 			}
 			//TODO check more cases, including limit cases, pending
 		}
@@ -246,16 +243,18 @@ namespace ft {
 		}
 
 		void	reserve(size_type n) {
-			if (n > this->max_size())
+			if (n > this->max_size()) {
 				throw	std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+			}
 			vector	tmp = *this;
 			this->clear();
 			this->_size = tmp._size;
 			this->_alloc.deallocate(this->_array, this->_capacity);
 			this->_capacity = n;
 			this->_array = this->_alloc.allocate(this->_capacity);
-			for (unsigned long i = 0; i < tmp._size; i++)
+			for (unsigned long i = 0; i < tmp._size; i++) {
 				this->_alloc.construct(this->_array + i, *(tmp._array + i));
+			}
 			//TODO check more cases, including limit cases, pending
 		}
 
@@ -269,14 +268,16 @@ namespace ft {
 		}
 
 		reference	at(size_type n) {
-			if (n >= this->size())
+			if (n >= this->size()) {
 				throw	std::out_of_range("vector");
+			}
 			return *(this->_array + n);
 		}
 
 		const_reference	at(size_type n) const {
-			if (n >= this->size())
+			if (n >= this->size()) {
 				throw	std::out_of_range("vector");
+			}
 			return *(this->_array + n);
 		}
 
@@ -306,31 +307,38 @@ namespace ft {
 
 		/* Modifiers */
 
-		/*template<class InputIterator>
+		template<class InputIterator>
 		void	assign(InputIterator first, InputIterator last) {
-			//TODO
-		}*/
+			this->_size = last - first;
+			for (unsigned long i = 0; i < this->_size; i++) {
+				this->_alloc.construct(this->_array + i, *(first++));
+			}
+			//TODO check more cases, including limit cases, pending
+		}
 
 		void	assign(size_type n, const value_type& val) {
-			this->resize(n);
-			for (unsigned long i = 0; i < this->_size; i++)
+			this->_size = n;
+			for (unsigned long i = 0; i < this->_size; i++) {
 				this->_alloc.construct(this->_array + i, val);
+			}
+			//TODO check more cases, including limit cases, pending
 		}
-		//TODO assign
 
 		void	push_back(const value_type& val) {
-			if (this->_size + 1 > this->max_size())
+			if (this->_size + 1 > this->max_size()) {
 				throw std::length_error("vector");
+			}
 			if (this->_size + 1 > this->_capacity) {
-				if (!this->_capacity)
+				if (!this->_capacity) {
 					this->reserve(1);
+				}
 				else {
 					this->reserve(this->_capacity * 2);
 				}
 			}
 			this->_alloc.construct(this->_array + this->_size, val);
-			this->_size++;
-			//TODO check if it works in every case (?)
+			++this->_size;
+			//TODO check more cases, including limit cases, pending
 		}
 
 		void	pop_back() {
@@ -339,33 +347,57 @@ namespace ft {
 			--this->_size;
 		}
 
-		//TODO insert
+		iterator	insert(iterator position, const value_type& val) {
+			unsigned long pos = position - this->begin();
 
-		iterator	erase(iterator position) {
-			vector	tmp = *this;
-
-			if (position == this->end() - 1) {
-				this->resize(this->_size - 1);
-				return this->end();
-				//TODO temporary, lets see if we can do it all in the for loop with tmp.resize()
+			if (this->_size + 1 > this->_capacity) {
+				if (!this->_size)
+					this->reserve(1);
+				else
+					this->reserve(this->_capacity * 2);
 			}
-			//TODO temporary, we must not construct over the already constructed elements (deallocate)
-			for (iterator it = this->begin(); it != this->end(); it++) {
-				if ((it - this->begin()) < (position - this->begin())) {
-					tmp._alloc.construct(tmp._array + (it - this->begin()), *it);
-				}
-				else if ((it - this->begin()) != static_cast<long int>(this->_size))
-					tmp._alloc.construct(tmp._array + (it - this->begin()), *(it + 1));
+			for (unsigned long i = this->_size; i > pos; i--) {
+				this->_alloc.construct(this->_array + i, *(this->_array + i - 1));
 			}
-			tmp._size -= 1;
-			*this = tmp;
-			return position;
+			this->_alloc.construct(this->_array + pos, val);
+			++this->_size;
+			return iterator(this->_array + pos);
 		}
 
-		/*iterator	erase(iterator first, iterator last) {
-		 * //TODO
+		/*void	insert(iterator position, size_type n, const value_type& val) {
+		//TODO
 		}*/
-		//TODO erase
+
+		/*template<class InputIterator>
+		void insert(iterator position, InputIterator first, InputIterator last) {
+		//TODO
+		}*/
+
+		iterator	erase(iterator position) {
+			if (position == this->begin()) {
+				for (unsigned long i = 0; i < this->_size - 1; i++) {
+					this->_alloc.construct(this->_array + i, *(this->_array + i + 1));
+				}
+			}
+			else {
+				for (iterator it = position; it != this->end() - 1; it++) {
+					this->_alloc.construct(this->_array + (it - this->begin()), *(it + 1));
+				}
+			}
+			--this->_size;
+			return	position;
+			//TODO check more cases, including limit cases, pending
+		}
+
+		iterator	erase(iterator first, iterator last) {
+			this->_size -= last - first;
+			for (unsigned long i = (first - this->begin()); i < this->_size; i++) {
+				this->_alloc.construct(this->_array + i, *(last++));
+			}
+			return first;
+			//TODO it fails due to original segfaulting when erasing all element while mine does not
+			//TODO check more cases, including limit cases, pending
+		}
 
 		void	swap(vector& x) {
 			vector	tmp(x);
@@ -376,8 +408,9 @@ namespace ft {
 			x._capacity = this->_capacity;
 			x._alloc = this->_alloc;
 			x._array = x._alloc.allocate(x._capacity);
-			for (unsigned long i = 0; i < this->_size; i++)
+			for (unsigned long i = 0; i < this->_size; i++) {
 				x._alloc.construct(x._array + i, *(this->_array + i));
+			}
 			this->clear();
 			this->_alloc.deallocate(this->_array, this->_capacity);
 			this->_size = tmp._size;
@@ -385,13 +418,15 @@ namespace ft {
 			this->_capacity = tmp._capacity;
 			this->_alloc = tmp._alloc;
 			this->_array = this->_alloc.allocate(this->_capacity);
-			for (unsigned long i = 0; i < tmp._size; i++)
+			for (unsigned long i = 0; i < tmp._size; i++) {
 				this->_alloc.construct(this->_array + i, *(tmp._array + i));
+			}
 		}
 
 		void	clear() {
-			for (unsigned long i = 0; i < this->_size; i++)
+			for (unsigned long i = 0; i < this->_size; i++) {
 				this->_alloc.destroy(this->_array + i);
+			}
 			this->_size = 0;
 		}
 
