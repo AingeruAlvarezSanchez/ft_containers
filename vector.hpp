@@ -365,7 +365,7 @@ namespace ft {
 		}
 
 		/*void	insert(iterator position, size_type n, const value_type& val) {
-		//TODO
+		//TODO Use the cppreference definition, not the cplusplus one
 		}*/
 
 		/*template<class InputIterator>
@@ -391,11 +391,16 @@ namespace ft {
 
 		iterator	erase(iterator first, iterator last) {
 			this->_size -= last - first;
+			if (!this->_size) {
+				this->_alloc.deallocate(this->_array, this->_capacity);
+				this->_array = NULL;
+				return this->begin();
+				//TODO must do container buffer overflow, if I do deallocate, mine does SEGV
+			}
 			for (unsigned long i = (first - this->begin()); i < this->_size; i++) {
 				this->_alloc.construct(this->_array + i, *(last++));
 			}
 			return first;
-			//TODO it fails due to original segfaulting when erasing all element while mine does not
 			//TODO check more cases, including limit cases, pending
 		}
 
