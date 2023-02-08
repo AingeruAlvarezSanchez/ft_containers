@@ -195,8 +195,16 @@ namespace ft {
 			return iterator(this->_array);
 		}
 
+		const_iterator	begin() const {
+			return const_iterator(this->_array);
+		}
+
 		iterator	end() {
 			return iterator(this->_array + this->_size);
+		}
+
+		const_iterator	end() const {
+			return const_iterator(this->_array + this->_size);
 		}
 
 		reverse_iterator	rbegin() {
@@ -364,7 +372,7 @@ namespace ft {
 			return iterator(this->_array + pos);
 		}
 
-		/*void	insert(iterator position, size_type n, const value_type& val) {
+		/*iterator	insert(iterator position, size_type n, const value_type& val) {
 		//TODO Use the cppreference definition, not the cplusplus one
 		}*/
 
@@ -392,10 +400,7 @@ namespace ft {
 		iterator	erase(iterator first, iterator last) {
 			this->_size -= last - first;
 			if (!this->_size) {
-				this->_alloc.deallocate(this->_array, this->_capacity);
-				this->_array = NULL;
-				return this->begin();
-				//TODO must do container buffer overflow, if I do deallocate, mine does SEGV
+				this->_alloc.construct(this->_array, 0);
 			}
 			for (unsigned long i = (first - this->begin()); i < this->_size; i++) {
 				this->_alloc.construct(this->_array + i, *(last++));
@@ -443,33 +448,35 @@ namespace ft {
 
 	/* Non member */
 	template <class T, class Alloc>
-	bool	operator==(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+	bool	operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+		if (lhs.size() != rhs.size())
+			return false;
 		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 
 	template <class T, class Alloc>
-	bool	operator!=(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+	bool	operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
 		return !(lhs == rhs);
 	}
 
 	template <class T, class Alloc>
-	bool	operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+	bool	operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class T, class Alloc>
-	bool	operator<=(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
-		return !(rhs < lhs); //TODO CHECK
+	bool	operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+		return !(rhs < lhs);
 	}
 
 	template <class T, class Alloc>
-	bool	operator>(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
+	bool	operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
 		return rhs < lhs;
 	}
 
 	template <class T, class Alloc>
-	bool	operator>=(const vector<T, Alloc> & lhs, const vector<T, Alloc>& rhs) {
-		return !(lhs < rhs); //TODO CHECK
+	bool	operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+		return !(lhs < rhs);
 	}
 
 	template <class T, class Alloc>

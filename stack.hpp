@@ -48,28 +48,52 @@ namespace ft {
 			_underlyingContainer.erase(_underlyingContainer.begin());
 		}
 
+		template<class U, class Cont>
+		friend bool	operator==(const stack<U, Cont>& lhs, const stack<U, Cont>& rhs);
+
+		template<class U, class Cont>
+		friend bool	operator!=(const stack<U, Cont>& lhs, const stack<U, Cont>& rhs);
+
+		template<class U, class Cont>
+		friend bool	operator<(const stack<U, Cont>& lhs, const stack<U, Cont>& rhs);
+
+		template<class U, class Cont>
+		friend bool	operator<=(const stack<U, Cont>& lhs, const stack<U, Cont>& rhs);
+
+		template<class U, class Cont>
+		friend bool	operator>(const stack<U, Cont>& lhs, const stack<U, Cont>& rhs);
+
+		template<class U, class Cont>
+		friend bool	operator>=(const stack<U, Cont>& lhs, const stack<U, Cont>& rhs);
 	};
 
 	/* Non member */
 	//TODO
-	/*template <class T, class Container>
+	template <class T, class Container>
 	bool	operator==(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
+		return lhs._underlyingContainer == rhs._underlyingContainer;
 	}
 	template <class T, class Container>
 	bool	operator!=(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
+		return lhs._underlyingContainer != rhs._underlyingContainer;
 	}
 	template <class T, class Container>
 	bool	operator<(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
+		return lhs._underlyingContainer < rhs._underlyingContainer;
 	}
 	template <class T, class Container>
 	bool	operator<=(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
+		return lhs._underlyingContainer <= rhs._underlyingContainer;
 	}
 	template <class T, class Container>
 	bool	operator>(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
+		return lhs._underlyingContainer > rhs._underlyingContainer;
 	}
 	template <class T, class Container>
 	bool	operator>=(const stack<T, Container>& lhs, const stack<T, Container>& rhs) {
-	}*/
+		return lhs._underlyingContainer >= rhs._underlyingContainer;
+	}
+	//TODO check
 }
 
 #endif //DOCUMENTS_STACK_HPP
