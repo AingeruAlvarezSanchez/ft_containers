@@ -1,5 +1,5 @@
-#ifndef DOCUMENTS_STACK_HPP
-#define DOCUMENTS_STACK_HPP
+#ifndef STACK_HPP
+#define STACK_HPP
 #include "vector.hpp"
 
 namespace ft {
@@ -96,4 +96,4 @@ namespace ft {
 	//TODO check
 }
 
-#endif //DOCUMENTS_STACK_HPP
+#endif //STACK_HPP
