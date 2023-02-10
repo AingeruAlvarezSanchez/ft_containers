@@ -33,19 +33,19 @@ namespace ft {
 		}
 
 		value_type&	top() {
-			return _underlyingContainer[0];
+			return _underlyingContainer.back();
 		}
 
 		const value_type&	top() const {
-			return _underlyingContainer[0];
+			return _underlyingContainer.back();
 		}
 
 		void	push(const value_type& val) {
-			_underlyingContainer.insert(_underlyingContainer.begin(), val);
+			_underlyingContainer.push_back(val);
 		}
 
 		void pop() {
-			_underlyingContainer.erase(_underlyingContainer.begin());
+			_underlyingContainer.pop_back();
 		}
 
 		template<class U, class Cont>
