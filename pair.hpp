@@ -12,7 +12,7 @@ namespace ft {
 		second_type	_second;
 	public:
 		/* Constructors */
-		pair() : _first(0), _second("") {}
+		pair() : _first(0), _second(0) {}
 
 		pair(const first_type& a, const second_type& b) : _first(a), _second(b) {}
 
