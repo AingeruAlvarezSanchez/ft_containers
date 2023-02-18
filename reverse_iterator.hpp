@@ -16,10 +16,15 @@ namespace ft {
 		iterator_type	_base;
 	public:
 		/* Constructors */
-		reverse_iterator() : _base(0) {}
-		explicit reverse_iterator(iterator_type it) : _base(it) {}
+		reverse_iterator()
+		: _base(0) {}
+
+		explicit reverse_iterator(iterator_type it)
+		: _base(it) {}
+
 		template<class Iter>
-		reverse_iterator(const reverse_iterator<Iter>& rev_it) : _base(rev_it._base) {}
+		reverse_iterator(const reverse_iterator<Iter>& rev_it)
+		: _base(rev_it._base) {}
 
 		/* Base */
 		iterator_type	base() const {

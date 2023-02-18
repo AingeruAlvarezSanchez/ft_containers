@@ -13,7 +13,8 @@ namespace ft {
 		container_type	_underlyingContainer;
 	public:
 		/* Constructor */
-		explicit stack(const container_type& ctnr = container_type()) : _underlyingContainer(ctnr) {}
+		explicit stack(const container_type& ctnr = container_type())
+		: _underlyingContainer(ctnr) {}
 
 		/* Destructor */
 		~stack() {}

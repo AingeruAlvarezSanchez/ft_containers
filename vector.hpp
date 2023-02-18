@@ -23,19 +23,23 @@ namespace ft {
 		pointer	_ptr;
 	public:
 		/* Constructors */
-		iterator() : _ptr(0) {}
+		iterator()
+		: _ptr(0) {}
 
-		explicit iterator(pointer ptr) : _ptr(ptr) {}
+		explicit iterator(pointer ptr)
+		: _ptr(ptr) {}
 
-		iterator(const iterator& x) : _ptr(x._ptr) {}
+		iterator(const iterator& x)
+		: _ptr(x._ptr) {}
 
 		/* Destructor */
 		~iterator() {}
 
 		/* Overload of operator= */
 		iterator&	operator=(const iterator& x) {
-			if (*this == &x)
+			if (*this == &x) {
 				return *this;
+			}
 			this->_ptr = x._ptr;
 			return *this;
 		}
@@ -226,15 +230,15 @@ namespace ft {
 		}
 
 		void	resize(size_type n, value_type val = value_type()) {
-			if (this->_size + n > this->max_size())
+			if (this->_size + n > this->max_size()) {
 				throw	std::length_error("vector");
+			}
 			if (n <= this->_size) {
 				for (unsigned long i = n + 1; i < this->_size; i++) {
 					this->_alloc.destroy(this->_array + i);
 				}
 				this->_size = n;
-			}
-			else {
+			} else {
 				while (this->_size < n) {
 					push_back(val);
 				}
@@ -339,8 +343,7 @@ namespace ft {
 			if (this->_size + 1 > this->_capacity) {
 				if (!this->_capacity) {
 					this->reserve(1);
-				}
-				else {
+				} else {
 					this->reserve(this->_capacity * 2);
 				}
 			}
@@ -359,10 +362,11 @@ namespace ft {
 			unsigned long pos = position - this->begin();
 
 			if (this->_size + 1 > this->_capacity) {
-				if (!this->_size)
+				if (!this->_size) {
 					this->reserve(1);
-				else
+				} else {
 					this->reserve(this->_capacity * 2);
+				}
 			}
 			for (unsigned long i = this->_size; i > pos; i--) {
 				this->_alloc.construct(this->_array + i, *(this->_array + i - 1));
@@ -386,8 +390,7 @@ namespace ft {
 				for (unsigned long i = 0; i < this->_size - 1; i++) {
 					this->_alloc.construct(this->_array + i, *(this->_array + i + 1));
 				}
-			}
-			else {
+			} else {
 				for (iterator it = position; it != this->end() - 1; it++) {
 					this->_alloc.construct(this->_array + (it - this->begin()), *(it + 1));
 				}
@@ -449,8 +452,9 @@ namespace ft {
 	/* Non member */
 	template <class T, class Alloc>
 	bool	operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
-		if (lhs.size() != rhs.size())
+		if (lhs.size() != rhs.size()) {
 			return false;
+		}
 		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 

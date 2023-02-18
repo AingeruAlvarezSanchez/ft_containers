@@ -12,12 +12,15 @@ namespace ft {
 		second_type	_second;
 	public:
 		/* Constructors */
-		pair() : _first(0), _second(0) {}
+		pair()
+		: _first(0), _second(0) {}
 
-		pair(const first_type& a, const second_type& b) : _first(a), _second(b) {}
+		pair(const first_type& a, const second_type& b)
+		: _first(a), _second(b) {}
 
 		template<class U, class V>
-		pair(const pair<U, V>& pr) : _first(pr._first), _second(pr._second){}
+		pair(const pair<U, V>& pr)
+		: _first(pr._first), _second(pr._second){}
 
 		/* Overload of operator= */
 		pair&	operator=(const pair& pr) {
