@@ -1,5 +1,5 @@
-#ifndef RBTNODE_HPP
-#define RBTNODE_HPP
+#ifndef BST_HPP
+#define BST_HPP
 #include "pair.hpp"
 
 #define BLACK	0
@@ -25,7 +25,7 @@ namespace ft {
 	};
 
 	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<RedBlackTreeNode<Key, T> > >
-	class RedBlackTree {
+	class BinarySearchTree {
 	public:
 		typedef Key								key_type;
 		typedef T								value_type;
@@ -37,10 +37,10 @@ namespace ft {
 		RedBlackNode*	_root;
 	public:
 		/* Constructors */
-		RedBlackTree()
+		BinarySearchTree()
 		: _root(0) {}
 
-		~RedBlackTree() {
+		~BinarySearchTree() {
 			this->clearTree(this->_root);
 		}
 
@@ -106,4 +106,4 @@ namespace ft {
 	};
 }
 
-#endif //RBTNODE_HPP
+#endif //BST_HPP

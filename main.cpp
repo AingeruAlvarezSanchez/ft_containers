@@ -5,10 +5,10 @@
 #include <iostream>
 #include "pair.hpp"
 #include "make_pair.hpp"
-#include "Rbt.hpp"
+#include "Bst.hpp"
 
 int	main() {
-	ft::RedBlackTree<int, std::string> rbt;
+	ft::BinarySearchTree<int, std::string> rbt;
 	ft::RedBlackTreeNode<int, std::string> *node;
 	ft::RedBlackTreeNode<int, std::string> *node2;
 	ft::RedBlackTreeNode<int, std::string> *node4;
